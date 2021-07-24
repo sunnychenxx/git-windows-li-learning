@@ -1,0 +1,43 @@
+1 我也遇到了fatal: Could not read from remote repository. Please make sure you have the correct access rights and the repository exists.的问题，以下来自我的笔记：
+
+	通过 git@github.com:michaelliao/learngit.git 关联的，我在win7和win10上测试推送时都不能成功，https的才可以。如果已经用git@关联，则可以在.git目录下的config文件中，把 url = 后面的内容改为https类型的即可。 https类型的格式为： $ git remote add origin https://github.com/daoke0818/testGit2.github
+
+2、如果在第一步中创建时已经初始化过项目提醒 error: failed to push some refs to 'https://github.com/daoke0818/testGit2.git' hint: Updates were rejected because the remote contains work that you do hint: not have locally. This is usually caused by another repository pushing hint: to the same ref. You may want to first integrate the remote changes hint: (e.g., 'git pull ...') before pushing again. hint: See the 'Note about fast-forwards' in 'git push --help' for details.                    
+
+
+	因为远程库中已经存在readme文件了，所以需要先pull下来。命令如下： $ git pull origin master
+	 git pull --rebase origin master
+
+3、这时又会报错： From https://github.com/daoke0818/testGit
+
+	branch master -> FETCH_HEAD fatal: refusing to merge unrelated histories 说这两个库有不相干的历史记录而无法合并，这时我们可以加上一个参数 --allow-unrelated-histories 即可成功pull： $ git pull origin master --allow-unrelated-histories
+
+	但是这时会可能会提示必须输入提交的信息，默认会打开vim编辑器，先按 i 切换到插入模式，写完后 Esc→：→wq 即可保存退出编辑器。如果不进入vim编辑器，则会自动生成一个合并代码的commit。然后再使用前面的命令push将本地提交推送到远程仓库。后面如果本地还有commit，就可以直接用 git push origin master 推送。
+
+	笔记地址： 文档：git学习（廖雪峰版教程）.note 链接：http://note.youdao.com/noteshare?id=4653994abae090b764e7fb65a039a7fe&sub=4B72DD531A444C5E97EB28F6A969D01D
+
+4、fatal: unable to access 'https://github.com/.......': OpenSSL SSL_read: Connection was reset, errno 10054
+	产生原因：一般是这是因为服务器的SSL证书没有经过第三方机构的签署，所以才报错参考网上解决办法：解除ssl验证后，再次git即可git config --global http.sslVerify "false"
+	参考地址：https://www.cnblogs.com/lvhuayan/p/14538106.html
+
+5、atal: Couldn't find remote ref master 翻译过来就是：致命的：无法找到远程参考主，也就是报错的意思。错误的提示内容意思是找不到需要连接的对象。
+	解决方法有以下几种：
+	0.如果是新建的仓库（ repositories ）的话在pull代码的时候，出现这个提示，可以忽略不计，直接提交就可以。
+
+	1.检查本地GIT的配置
+	git config user.name/git config --global user.name
+
+	git config user.email/git config --gloabl user.email
+	使用以上命令来检查本地的用户名和邮箱是否填写正确
+	2.检查远程仓库配置
+	git remote -v
+	如果远程仓库信息有误，则删除本地仓库配置，并且设置相关地址
+	git remote rm origin
+	git remote add origin XXXX
+	3.还是不行的话可以找到文件路径下 git文件所在，打开config文件，删除[remote "origin"] 下信息。重复1，2步骤。
+	参考地址：https://www.cnblogs.com/tig666666/p/8425865.html
+
+
+6、git遇到fatal: unable to access ‘https://github.com/xxx/xxx/’:OpenSSL SSL_read: Connection was aborted, errno 10053的问题
+	原因：Git默认限制推送的大小，运行命令更改限制大小即可解决方法  git config --global http.postBuffer 524288000
+	参考地址：https://blog.csdn.net/bigcat030/article/details/115742972

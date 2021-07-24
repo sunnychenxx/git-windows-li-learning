@@ -1,0 +1,46 @@
+--global 该命令项只需要运行一次，之后默认使用这些信息
+git config –list 查看信息
+git init 仓库初始化
+git status 查看状态
+git add xxxx添加文件
+git commit –m”” 提交文件
+git diff xxxx 查看修改
+git log 查看提交历史记录 我们可以看到3次提交，最近的一次是append GPL，上一次是add distributed，最早的一次是wrote a readme file。
+如果嫌输出信息太多，看得眼花缭乱的，可以试试加上--pretty=oneline参数
+git reset 回退到上一个版本 
+git reflog 查看命令历史，查看commit id
+git rm xxxx  删除文件（工作区和版本库不一致）(删除 git commit  删错恢复 git checkout -- xxxx 用版本库里的版本替换工作区的版本   
+	从索引中删除文件，或从工作树和索引中删除文件。 git rm不会从您的工作目录中删除文件。 (没有任何选项只能从工作树中删除文件，并将其保留在索引中;)要删除的文件必须与分支的提示相同，并且在索引中不能对其内容进行更新，尽管可以使用-f选项覆盖(默认行为)。 当给出--cached时，暂存区内容必须与分支的提示或磁盘上的文件相匹配，从而仅将文件从索引中删除。
+	使用 git rm 来删除文件，同时还会将这个删除操作记录下来；而使用 rm 来删除文件，仅仅是删除了物理文件，没有将其从 git 的记录中剔除。
+	直观的来讲，git rm 删除过的文件，执行 git commit -m "commit message or mark" 提交时，会自动将删除该文件的操作提交上去。
+	而对于用 rm 命令直接删除的文件，执行 git commit -m "commit message or mark"提交时，则不会将删除该文件的操作提交上去。不过不要紧，即使你已经通过 rm 将某个文件删除掉了，也可以再通过 git rm 命令重新将该文件从 git 的记录中删除掉，这样的话，在执行 git commit -m "commit message or mark" 	以后，也能将这个删除操作提交上去。
+	如果之前不小心用 rm 命令删除了一大批文件呢？如此时用 git rm 逐个地再删除一次就显得相当卵痛了。可如下的方式做提交： git commit -am "commit message or mark"//原文出自【易百教程】，商业转载请联系作者获得授权，非商业请保留原文链接：https://www.yiibai.com/git/git_rm.html
+
+
+git remote add origin http://github.com/yyyy/xxx.git 建立远程库和本地库连接（git remote rm origin:删除远程库）
+git remote rm xxxx  删除远程库
+git push -u origin main 把本地库的内容推送到远程库上 （-u:第一次推送master 分支）
+git pull origin main  把远程库的内容推送到本地库上
+git pull --rebase origin master 把远程库同步到本地库
+删除本地仓库  
+	1.$ ls -a    #找到目录下.git   
+	2.$ rm -rf  .git   #删除 .git 文件夹
+
+
+查看分支：git branch
+
+创建分支：git branch <name>
+
+切换分支：git checkout <name>或者git switch <name>
+
+创建+切换分支：git checkout -b <name>或者git switch -c <name>
+
+合并某分支到当前分支：git merge <name>
+
+删除分支：git branch -d <name>
+用git log --graph命令可以看到分支合并图
+
+
+
+
+
